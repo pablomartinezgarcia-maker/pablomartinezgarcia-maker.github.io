@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Clase del Profesor Pablo</title>
+    <style>
+        body { font-family: sans-serif; display: flex; justify-content: center; align-items: center; height: 100vh; background: #1a1a1a; color: white; margin: 0; }
+        .loader { border: 8px solid #333; border-top: 8px solid #3498db; border-radius: 50%; width: 60px; height: 60px; animation: spin 1s linear infinite; margin: 0 auto 20px; }
+        @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
+    </style>
+</head>
+<body>
+    <div style="text-align: center;">
+        <div class="loader"></div>
+        <h1>Conectando al servidor del Profesor Pablo...</h1>
+        <p>Espere un momento, por favor.</p>
+    </div>
+    <script>
+        async function conectar() {
+            try {
+                // Consultamos tu Firebase para saber la URL de hoy
+                const r = await fetch("https://pizarra-pablo-default-rtdb.firebaseio.com/pizarra.json");
+                const d = await r.json();
+                if (d && d.url_actual) {
+                    window.location.href = d.url_actual;
+                } else {
+                    document.body.innerHTML = "<h1>El servidor está actualmente apagado.</h1>";
+                }
+            } catch (e) {
+                document.body.innerHTML = "<h1>Error de conexión con la pizarra.</h1>";
+            }
+        }
+        conectar();
+    </script>
+</body>
+</html>
